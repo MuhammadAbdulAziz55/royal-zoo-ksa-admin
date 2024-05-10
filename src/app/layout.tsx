@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 const inter = Inter({ subsets: ["latin"] });
+
+import ReactQueryWrapper from "@/components/ReactQueryWrapper";
+import NextAuthWrapper from "@/components/layout_components/rootlayout/NextAuthWrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html suppressHydrationWarning={true} lang="en">
+      <body suppressHydrationWarning={true} className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextAuthWrapper>
+            <ReactQueryWrapper>{children}</ReactQueryWrapper>
+          </NextAuthWrapper>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
